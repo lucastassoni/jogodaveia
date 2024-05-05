@@ -11,7 +11,7 @@ import com.example.jogo_da_veia.R;
 
 import java.util.Random;
 
-public class JogoDaVeia extends AppCompatActivity {
+public class JogoDaVeia extends AppCompatActivity implements View.OnClickListener{
 
     private Button[][] botoes = new Button[3][3];
     private boolean turnoJogador1 = true;
@@ -37,6 +37,42 @@ public class JogoDaVeia extends AppCompatActivity {
             }
         }
 
-}
+        Button botaoReset = findViewById(R.id.botao_reset);
+        botaoReset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                reiniciarJogo();
+            }
+        });
+    }
+
+    @Override
+    public void onClick(View v) {
+        Button botaoClicado = (Button) v;
+        if (!botaoClicado.getText().toString().isEmpty()) {
+            return;
+        }
+
+
+        if (turnoJogador1) {
+            botaoClicado.setText("O");
+        } else {
+            botaoClicado.setText("X");
+        }
+
+        contagemRodada++;
+
+
+        if (verificarVitoria()) {
+            finalizarJogo();
+        } else if (contagemRodada == 9) {
+            empate();
+        } else {
+            turnoJogador1 = !turnoJogador1;
+            if (!turnoJogador1) {
+                jogadaMaquina();
+            }
+        }
+    }
 
 }
