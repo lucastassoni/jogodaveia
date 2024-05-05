@@ -1,24 +1,42 @@
 package com.example.jogo_da_veia;
 
-import android.os.Bundle;
-
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+
+import com.example.jogo_da_veia.R;
+
+import java.util.Random;
 
 public class JogoDaVeia extends AppCompatActivity {
+
+    private Button[][] botoes = new Button[3][3];
+    private boolean turnoJogador1 = true;
+    private int contagemRodada;
+    private TextView textoResultado;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_main);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
-    }
+        setContentView(R.layout.activity_jogo_velha);
+
+        textoResultado = findViewById(R.id.texto_resultado);
+
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                String buttonID = "button_" + i + j;
+                int resID = getResources().getIdentifier(buttonID, "id", getPackageName());
+                botoes[i][j] = findViewById(resID);
+                if(botoes[i][j] == null) {
+                    Log.e("JogoDaVelha", "Botão não encontrado para ID: " + buttonID);
+                }
+                botoes[i][j].setOnClickListener(this);
+            }
+        }
+
+}
+
 }
